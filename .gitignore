@@ -1,0 +1,53 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+
+# Environment (never commit secrets)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Test / coverage
+coverage
+*.lcov
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite cache
+.vite
+
+# ESLint
+.eslintcache
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Legacy / Windows
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Local-only Vite env overrides (keep .env.example tracked)
+*.local
