@@ -4,8 +4,6 @@ A **static, client-only** web app that hides short text inside **Spotify playlis
 
 **Architecture (by design):** Encoding, decoding, and all Spotify orchestration (OAuth with PKCE, search, playlist read/write) run **entirely in the browser**. This repository does **not** include an application server, database, or API of its own—the **only** remote service the client talks to is **Spotify’s Web API**. That is a deliberate tradeoff: static hosting, no server to operate for this product, and alignment with Spotify’s **Authorization Code with PKCE** model without putting a client secret in client-side code.
 
-This repository is the product UI and logic only. Marketing or documentation sites can live elsewhere; the first screen here is a compact connect + usage gate.
-
 ---
 
 ## Table of contents
