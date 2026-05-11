@@ -2,7 +2,9 @@
 
 A **static, client-only** web app that hides short text inside **Spotify playlists** using **duration-ranked Lehmer coding** (44 bits per block of 16 tracks). Recipients sign in with Spotify, paste a playlist link, and the original message is recovered—as long as the playlist order is unchanged.
 
-This repository is the **product UI and logic** only. Marketing or documentation sites can live elsewhere; the first screen here is a compact **connect + usage** gate.
+**Architecture (by design):** Encoding, decoding, and all Spotify orchestration (OAuth with PKCE, search, playlist read/write) run **entirely in the browser**. This repository does **not** include an application server, database, or API of its own—the **only** remote service the client talks to is **Spotify’s Web API**. That is a deliberate tradeoff: static hosting, no server to operate for this product, and alignment with Spotify’s **Authorization Code with PKCE** model without putting a client secret in client-side code.
+
+This repository is the product UI and logic only. Marketing or documentation sites can live elsewhere; the first screen here is a compact connect + usage gate.
 
 ---
 
@@ -29,7 +31,7 @@ This repository is the **product UI and logic** only. Marketing or documentation
 
 - **Send:** UTF-8 text (byte budget enforced in UI), genre seed for track search, optional playlist name; creates a new playlist on the signed-in account with an agreed description marker.
 - **Read:** Accepts playlist URL, `spotify:playlist:` URI, or raw playlist id; validates track count and decodes.
-- **Spotify Web API** with [Authorization Code + PKCE](https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow) (no backend, no client secret in the browser).
+- **Spotify Web API** with [Authorization Code + PKCE](https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow) (no first-party backend; no client secret in the browser).
 - **Resilient HTTP:** refresh on `401`, honors `Retry-After` / backoff on `429`.
 - **UI:** Dark editorial styling (serif + sans + mono), single-screen connect gate, mode select, send/read flows.
 
