@@ -630,11 +630,23 @@ body {
   max-width: 520px;
 }
 
+.success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 1.75rem;
+  margin: 0.35rem 0 1rem;
+}
+
+.success-actions .btn-ghost {
+  margin-top: 0;
+}
+
 .playlist-link {
   display: inline-block;
   color: var(--spotify);
   text-decoration: none;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   font-size: 0.95rem;
 }
 

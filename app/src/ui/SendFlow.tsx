@@ -124,16 +124,18 @@ export function SendFlow({ onBack }: SendFlowProps) {
             <div className="success-panel">
               <p className="section-kicker">Ready</p>
               <h2 className="title-serif sm">{result.name}</h2>
-              <a className="playlist-link" href={result.url} target="_blank" rel="noreferrer">
-                Open in Spotify ↗
-              </a>
-              <button
-                type="button"
-                className="btn-ghost"
-                onClick={() => void navigator.clipboard.writeText(result.url)}
-              >
-                Copy link
-              </button>
+              <div className="success-actions">
+                <a className="playlist-link" href={result.url} target="_blank" rel="noreferrer">
+                  Open in Spotify ↗
+                </a>
+                <button
+                  type="button"
+                  className="btn-ghost"
+                  onClick={() => void navigator.clipboard.writeText(result.url)}
+                >
+                  Copy link
+                </button>
+              </div>
             </div>
           </div>
           {successAside}
