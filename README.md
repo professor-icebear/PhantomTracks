@@ -17,6 +17,7 @@ Everything runs in the **browser**: OAuth (PKCE), search, playlist create/read, 
 - [Web API behavior](#web-api-behavior)
 - [Project layout](#project-layout)
 - [Scripts](#scripts)
+- [Testing](#testing)
 - [Production](#production)
 - [Limitations](#limitations)
 - [Troubleshooting](#troubleshooting)
@@ -134,6 +135,7 @@ src/
   spotify/          # PKCE, tokens, HTTP, playlists, search
   phantom/          # Encode/decode, playlist id parsing
   ui/               # Screens + playlist preview
+  tests/            # Vitest (`*.test.ts`) — codec, Spotify helpers, mocked flows
   genres.ts
 public/
   favicon.svg
@@ -149,6 +151,14 @@ public/
 | `npm run build` | Typecheck + `dist/` bundle. |
 | `npm run preview` | Serve `dist/` locally. |
 | `npm run lint` | ESLint. |
+| `npm test` | Vitest once (no Spotify account needed). |
+| `npm run test:watch` | Vitest watch mode. |
+
+---
+
+## Testing
+
+[Vitest](https://vitest.dev/) drives unit tests under `src/tests/` (codec, Lehmer, playlist parsing, PKCE/token helpers, error parsing, and mocked decode). They do **not** call the live Spotify API.
 
 ---
 
