@@ -5,7 +5,10 @@ import { Pipeline } from "@/components/Pipeline";
 import { useReveal } from "@/hooks/useReveal";
 import { ArrowUpRight } from "lucide-react";
 
-const APP_URL = "#"; // replace with the actual app URL
+const APP_URL = "https://phantomtracks-app.vercel.app";
+const REPO_URL = "https://github.com/professor-icebear/PhantomTracks";
+/** Medium post or profile explaining the project — change if your URL differs. */
+const BLOG_URL = "https://medium.com/@professor-icebear";
 
 const benefits = [
   { n: "1", title: "Hidden in plain sight", desc: "Data is encoded into ordinary-looking playlists. Nothing to flag, nothing to scan." },
@@ -66,11 +69,27 @@ const Index = () => {
         </div>
 
         {/* Pill nav */}
-        <nav className="absolute bottom-6 md:bottom-10 left-1/2 z-10 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md md:w-auto">
-          <div className="flex items-center justify-center gap-0.5 md:gap-1 rounded-full bg-background/90 px-1.5 py-1.5 md:px-2 md:py-2 backdrop-blur ring-1 ring-border">
+        <nav className="absolute bottom-6 md:bottom-10 left-1/2 z-10 -translate-x-1/2 w-[calc(100%-2rem)] max-w-2xl md:w-auto">
+          <div className="flex flex-wrap items-center justify-center gap-y-1.5 gap-x-0.5 md:gap-1 rounded-full bg-background/90 px-1.5 py-1.5 md:px-2 md:py-2 backdrop-blur ring-1 ring-border">
             <a href="#concept" className="px-2.5 md:px-4 py-1.5 text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">Concept</a>
             <a href="#process" className="px-2.5 md:px-4 py-1.5 text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">Process</a>
             <a href="#why" className="px-2.5 md:px-4 py-1.5 text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors">Why</a>
+            <a
+              href={REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-2.5 md:px-4 py-1.5 text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+            >
+              Code <ArrowUpRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
+            </a>
+            <a
+              href={BLOG_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-2.5 md:px-4 py-1.5 text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+            >
+              Blog <ArrowUpRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
+            </a>
             <a
               href={APP_URL}
               className="ml-0.5 md:ml-1 inline-flex items-center gap-1 rounded-full bg-primary px-3 md:px-4 py-1.5 text-xs md:text-sm font-medium text-primary-foreground hover:bg-accent transition-colors whitespace-nowrap"
