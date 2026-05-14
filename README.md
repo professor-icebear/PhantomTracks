@@ -188,3 +188,4 @@ Deploy `dist/` to any static host. Set `VITE_SPOTIFY_REDIRECT_URI` to your **HTT
 ## License
 
 [MIT](LICENSE)
+
