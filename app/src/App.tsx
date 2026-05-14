@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { shouldOfferAccessRequestForApiMessage, isOAuthAccessDenied } from './accessRequest'
 import { ensureAccessToken } from './spotify/api'
 import { beginLogin, exchangeCodeForSessionOnce } from './spotify/authActions'
 import { fetchCurrentUser, type CurrentUser } from './spotify/playlist'
 import { clearSession, getRefreshToken, hydrateFromSession } from './spotify/tokens'
+import { AccessRequestForm } from './ui/AccessRequestForm'
 import { Landing } from './ui/Landing'
 import { ModeSelect } from './ui/ModeSelect'
 import { ReadFlow } from './ui/ReadFlow'
@@ -14,6 +16,7 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>('landing')
   const [user, setUser] = useState<CurrentUser | null>(null)
   const [authBanner, setAuthBanner] = useState<string | null>(null)
+  const [accessRequestHint, setAccessRequestHint] = useState<string | null>(null)
   const [connectBusy, setConnectBusy] = useState(false)
 
   useEffect(() => {
@@ -31,10 +34,20 @@ export default function App() {
             desc = raw
           }
         }
-        setAuthBanner(
-          desc ?? 'Spotify denied access. Phantom Tracks needs playlist permission to work.',
-        )
         history.replaceState({}, '', window.location.pathname)
+        if (!cancelled) {
+          if (isOAuthAccessDenied(oauthErr)) {
+            setAccessRequestHint(null)
+            setAuthBanner(
+              'Spotify sign-in was cancelled. Tap Connect again when you are ready to approve access.',
+            )
+          } else {
+            setAccessRequestHint(null)
+            setAuthBanner(
+              desc ?? 'Spotify returned an error during sign-in. Check the Developer Dashboard redirect URI and try again.',
+            )
+          }
+        }
         return
       }
 
@@ -44,7 +57,9 @@ export default function App() {
           await exchangeCodeForSessionOnce(code)
         } catch (e) {
           if (!cancelled) {
-            setAuthBanner(e instanceof Error ? e.message : 'Sign-in failed.')
+            const msg = e instanceof Error ? e.message : 'Sign-in failed.'
+            setAccessRequestHint(null)
+            setAuthBanner(msg)
           }
           history.replaceState({}, '', window.location.pathname)
           return
@@ -58,7 +73,15 @@ export default function App() {
           }
         } catch (e) {
           if (!cancelled) {
-            setAuthBanner(e instanceof Error ? e.message : 'Unknown error')
+            const msg = e instanceof Error ? e.message : 'Unknown error'
+            clearSession()
+            if (shouldOfferAccessRequestForApiMessage(msg)) {
+              setAuthBanner(null)
+              setAccessRequestHint(msg)
+            } else {
+              setAccessRequestHint(null)
+              setAuthBanner(msg)
+            }
           }
         }
         return
@@ -73,8 +96,13 @@ export default function App() {
           setUser(me)
           setScreen('mode')
         }
-      } catch {
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : ''
         clearSession()
+        if (!cancelled && shouldOfferAccessRequestForApiMessage(msg)) {
+          setAuthBanner(null)
+          setAccessRequestHint(msg)
+        }
       }
     }
     void boot()
@@ -85,6 +113,7 @@ export default function App() {
 
   async function onConnect() {
     setAuthBanner(null)
+    setAccessRequestHint(null)
     setConnectBusy(true)
     try {
       await beginLogin()
@@ -100,6 +129,11 @@ export default function App() {
     setScreen('landing')
   }
 
+  function onAccessRequestBack() {
+    setAccessRequestHint(null)
+    setAuthBanner(null)
+  }
+
   return (
     <div className="app-shell">
       {authBanner ? (
@@ -111,7 +145,11 @@ export default function App() {
         </div>
       ) : null}
 
-      {screen === 'landing' ? <Landing onConnect={onConnect} connecting={connectBusy} /> : null}
+      {accessRequestHint ? (
+        <AccessRequestForm hint={accessRequestHint} onBack={onAccessRequestBack} />
+      ) : screen === 'landing' ? (
+        <Landing onConnect={onConnect} connecting={connectBusy} />
+      ) : null}
 
       {screen === 'mode' && user ? (
         <ModeSelect

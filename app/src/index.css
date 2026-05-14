@@ -178,6 +178,76 @@ body {
   text-align: center;
 }
 
+.connect-lead {
+  margin: 0 0 1rem;
+  font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+  line-height: 1.55;
+  color: var(--text-muted);
+  text-align: left;
+}
+
+.connect-lead strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.connect-lead-tight {
+  margin-top: -0.35rem;
+}
+
+/* Access request (dev allowlist) */
+.access-request-gate.connect-gate.screen {
+  overflow-y: auto;
+  height: auto;
+  min-height: 100dvh;
+  max-height: none;
+  padding-bottom: 2.5rem;
+}
+
+.access-request-inner {
+  max-width: 26rem;
+}
+
+.access-request-form {
+  width: 100%;
+  text-align: left;
+  margin-top: 1.35rem;
+}
+
+.access-request-field {
+  margin-bottom: 1rem;
+}
+
+.access-request-textarea {
+  min-height: 4.5rem;
+  resize: vertical;
+}
+
+.access-request-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: 0.25rem;
+}
+
+.access-request-error {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: #e8a598;
+}
+
+.access-request-back {
+  margin-top: 1rem;
+}
+
+.access-request-mono {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  color: var(--text);
+  word-break: break-all;
+}
+
 .nebula {
   position: fixed;
   inset: 0;

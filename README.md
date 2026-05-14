@@ -13,6 +13,7 @@ Everything runs in the **browser**: OAuth (PKCE), search, playlist create/read, 
 - [Tech stack](#tech-stack)
 - [Prerequisites](#prerequisites)
 - [Spotify developer mode and local setup](#spotify-developer-mode-and-local-setup)
+- [Access requests (development mode)](#access-requests-development-mode)
 - [Setup](#setup)
 - [OAuth](#oauth)
 - [Web API behavior](#web-api-behavior)
@@ -32,6 +33,7 @@ Everything runs in the **browser**: OAuth (PKCE), search, playlist create/read, 
 - **Read:** Playlist URL, `spotify:playlist:` URI, or raw id → decode and copy message; same preview panel on success.
 - **Playlist description:** Empty field → default line starting with **🔐 Phantom Tracks** (do not reorder). Non-empty → **exactly** your trimmed text, up to **300 UTF-8 bytes** client-side.
 - **HTTP:** Refresh on `401`; backoff and `Retry-After` on `429`.
+- **Development mode:** If the Spotify API rejects an account after sign-in (allowlist), visitors can use an **access request** form; see [Access requests](#access-requests-development-mode).
 
 ---
 
@@ -115,6 +117,16 @@ Spotify treats new API apps as being in **development mode** until they are move
 
 For a **deployed** site, register an **HTTPS** redirect URI (for example `https://your-project.vercel.app/callback`), set the same value as `VITE_SPOTIFY_REDIRECT_URI` in your host’s environment variables, and rebuild. You still need User Management entries for each tester while the app stays in development mode.
 
+### Access requests (development mode)
+
+If Spotify allows sign-in but then **blocks the Web API** for an account that is not on **User Management** (typical in development mode), the app shows a **request access** form instead of dumping raw API errors.
+
+- **What the visitor sees:** A short explanation plus fields for name, Spotify email, and an optional message.
+- **What you receive:** The same details plus **technical context** from Spotify (for debugging) in the body of the notification.
+- **Delivery (no backend in this repo):**
+  - Set **`VITE_WEB3FORMS_ACCESS_KEY`** in **`app/.env`** (local) or your host’s env (e.g. Vercel), then rebuild. Create a free key at [web3forms.com](https://web3forms.com) tied to the inbox where you want requests.
+  - If that variable is **unset**, the app opens a **mailto** with a prefilled message. The default recipient is defined as **`ACCESS_REQUEST_MAILTO`** in `app/src/accessRequest.ts`—change it if you fork the project.
+
 ---
 
 ## Setup
@@ -131,6 +143,7 @@ Edit **`app/.env`** (same variables as in [Spotify developer mode and local setu
 |----------|-------------|
 | `VITE_SPOTIFY_CLIENT_ID` | Spotify app **Client ID** (safe in a SPA). |
 | `VITE_SPOTIFY_REDIRECT_URI` | Must match one dashboard redirect URI exactly. |
+| `VITE_WEB3FORMS_ACCESS_KEY` | Optional. [Web3Forms](https://web3forms.com) access key so the **access request** form can email you without a `mailto` fallback. See [Access requests](#access-requests-development-mode). |
 
 **Local dev:** `app/vite.config.ts` binds the dev server to **`127.0.0.1:5173`**. Prefer **`http://127.0.0.1:5173/callback`** in the dashboard and in `.env` (Spotify often rejects plain `http://localhost` for new redirect URIs—see their [redirect URI documentation](https://developer.spotify.com/documentation/web-api/concepts/redirect_uri)).
 
