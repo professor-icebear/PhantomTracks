@@ -18,8 +18,10 @@ export async function decodePlaylistInput(input: string): Promise<string> {
   const rows = await getAllPlaylistTracks(id)
   const tracks: DurationTrack[] = rows.map((r) => ({ id: r.id, duration_ms: r.duration_ms }))
 
-  if (tracks.length < 32 || tracks.length % 16 !== 0) {
-    throw new Error("This doesn't look like a Phantom Tracks playlist.")
+  if (tracks.length < 16 || tracks.length % 16 !== 0) {
+    throw new Error(
+      `This doesn't look like a Phantom Tracks playlist (${tracks.length} playable tracks with durations — expected a multiple of 16).`,
+    )
   }
 
   const groups = chunk(tracks, 16)

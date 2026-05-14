@@ -45,7 +45,7 @@ function pickMessageFromJson(j: unknown): string | null {
 /** Reads response body as text first so we never drop Spotify’s message if JSON shape varies. */
 async function parseSpotifyError(res: Response): Promise<string> {
   const status = res.status
-  let raw = ''
+  let raw: string
   try {
     raw = await res.text()
   } catch {
@@ -63,6 +63,11 @@ async function parseSpotifyError(res: Response): Promise<string> {
   }
 
   return appendSpotifyErrorHints(status, `Spotify API error (${status})`)
+}
+
+/** Same message text as `spotifyJson` uses, for manual `spotifyRequest` handling. */
+export async function spotifyErrorMessage(res: Response): Promise<string> {
+  return parseSpotifyError(res)
 }
 
 function appendSpotifyErrorHints(status: number, message: string): string {

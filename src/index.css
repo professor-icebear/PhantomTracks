@@ -323,6 +323,222 @@ body {
   max-width: 520px;
 }
 
+.flow-primary .send-form {
+  max-width: 520px;
+}
+
+.flow.flow-with-preview {
+  max-width: 1180px;
+}
+
+.flow-split-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 400px);
+  gap: 2.25rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .flow-split-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-preview {
+    order: 3;
+    margin-top: 0.5rem;
+  }
+
+  .flow-primary {
+    order: 1;
+  }
+}
+
+.flow-preview {
+  position: sticky;
+  top: 1rem;
+}
+
+.playlist-preview {
+  border: 1px solid var(--line);
+  background: var(--bg-elevated);
+  max-height: min(72vh, 640px);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.playlist-preview-header {
+  flex-shrink: 0;
+  padding: 1rem 1rem 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.playlist-preview-kicker {
+  margin: 0 0 0.65rem;
+}
+
+.playlist-preview-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin: 0 0 0.35rem;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.playlist-preview-sub {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.playlist-preview-meta {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.playlist-preview-error {
+  margin: 0;
+  padding: 0.65rem 1rem;
+  font-size: 0.82rem;
+  color: #ffb4a4;
+  border-bottom: 1px solid var(--line);
+}
+
+.playlist-preview-empty {
+  margin: 0;
+  padding: 1rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.playlist-preview-skeleton {
+  padding: 0.5rem 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.playlist-preview-skeleton-row {
+  display: grid;
+  grid-template-columns: 1.75rem 2.75rem minmax(0, 1fr);
+  gap: 0.5rem;
+  align-items: center;
+  height: 2.75rem;
+}
+
+.playlist-preview-skeleton-idx {
+  height: 0.55rem;
+  width: 1rem;
+  margin-left: auto;
+  border-radius: 1px;
+  background: var(--line);
+}
+
+.playlist-preview-skeleton-art {
+  width: 2.75rem;
+  height: 2.75rem;
+  background: linear-gradient(135deg, var(--line) 0%, #252522 50%, var(--line) 100%);
+  background-size: 200% 200%;
+  animation: playlist-shimmer 1.2s ease-in-out infinite;
+}
+
+.playlist-preview-skeleton-line {
+  height: 0.65rem;
+  border-radius: 1px;
+  background: linear-gradient(90deg, var(--line) 0%, #2a2a26 50%, var(--line) 100%);
+  background-size: 200% 100%;
+  animation: playlist-shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes playlist-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.playlist-preview-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.playlist-preview-row {
+  display: grid;
+  grid-template-columns: 1.75rem 2.75rem minmax(0, 1fr) 2.5rem;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.45rem 0.85rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.8rem;
+}
+
+.playlist-preview-row:last-child {
+  border-bottom: none;
+}
+
+.playlist-preview-idx {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.playlist-preview-cover {
+  width: 2.75rem;
+  height: 2.75rem;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  background: #0d0d0c;
+}
+
+.playlist-preview-cover--placeholder {
+  background: linear-gradient(145deg, #141413 0%, #0a0a09 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.playlist-preview-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.playlist-preview-name {
+  color: var(--text);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playlist-preview-artist {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playlist-preview-dur {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -358,6 +574,10 @@ body {
 .textarea {
   resize: vertical;
   min-height: 120px;
+}
+
+.textarea-sm {
+  min-height: 4.5rem;
 }
 
 .input:focus,

@@ -19,6 +19,7 @@ export async function createEncodedPlaylist(
   genre: string,
   playlistName: string,
   onProgress: (p: EncodeProgress) => void,
+  options?: { playlistDescriptionExtra?: string },
 ): Promise<{ url: string; name: string; id: string }> {
   const trimmed = message.trim()
   const v = validateMessage(trimmed)
@@ -49,7 +50,7 @@ export async function createEncodedPlaylist(
     trackIds.push(...order)
   }
 
-  const pl = await createPlaylist(playlistName.trim() || 'Mix')
+  const pl = await createPlaylist(playlistName.trim() || 'Mix', options?.playlistDescriptionExtra)
   const batches = chunk(trackIds, 100)
   const batchCount = batches.length
   onProgress({ stage: 'writing', current: 0, total: batchCount })
