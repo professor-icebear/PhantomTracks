@@ -8,7 +8,7 @@ import { ArrowUpRight } from "lucide-react";
 const APP_URL = "https://phantomtracks-app.vercel.app";
 const REPO_URL = "https://github.com/professor-icebear/PhantomTracks";
 /** Medium post or profile explaining the project — change if your URL differs. */
-const BLOG_URL = "https://medium.com/@professor-icebear";
+const BLOG_URL = "https://medium.com/@abdullahasim200528/the-spotify-playlist-that-isnt-a-playlist-fd2e91c2cd39";
 
 const benefits = [
   { n: "1", title: "Hidden in plain sight", desc: "Data is encoded into ordinary-looking playlists. Nothing to flag, nothing to scan." },
